@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/api/v1/products")
+@RequestMapping(value = "/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -19,7 +19,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.createProduct(request));
     }
 
-    @PostMapping
+    @PostMapping("/purchase")
     public ResponseEntity<List<ProductPurchaseResponse>> purchaseProducts(
             @RequestBody List<ProductPurchaseRequest> request){
         return ResponseEntity.ok(productService.purchaseProducts(request));
