@@ -8,7 +8,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.ParameterizedType;
+
 import java.util.List;
 
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
