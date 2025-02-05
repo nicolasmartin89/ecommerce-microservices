@@ -1,4 +1,4 @@
-package com.nicom.payment.config;
+package com.nicom.payment.configuration;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;

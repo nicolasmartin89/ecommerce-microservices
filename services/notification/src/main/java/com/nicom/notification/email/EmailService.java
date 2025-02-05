@@ -1,5 +1,6 @@
 package com.nicom.notification.email;
 
+
 import com.nicom.notification.kafka.order.Product;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -17,10 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import static com.nicom.notification.email.EmailTemplates.ORDER_CONFIRMATION;
 import static com.nicom.notification.email.EmailTemplates.PAYMENT_CONFIRMATION;
-import static java.nio.charset.StandardCharsets.*;
-import static org.springframework.mail.javamail.MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 @Slf4j
@@ -37,10 +38,10 @@ public class EmailService {
             BigDecimal amount,
             String orderReference
     ) throws MessagingException {
+
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper messageHelper =
-                new MimeMessageHelper(mimeMessage, MULTIPART_MODE_MIXED_RELATED, UTF_8.name());
-        messageHelper.setFrom("nicolasmartin89@gmail.com");
+        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, UTF_8.name());
+        messageHelper.setFrom("contact@aliboucoding.com");
 
         final String templateName = PAYMENT_CONFIRMATION.getTemplate();
 
@@ -53,18 +54,17 @@ public class EmailService {
         context.setVariables(variables);
         messageHelper.setSubject(PAYMENT_CONFIRMATION.getSubject());
 
-        try{
+        try {
             String htmlTemplate = templateEngine.process(templateName, context);
             messageHelper.setText(htmlTemplate, true);
 
             messageHelper.setTo(destinationEmail);
             mailSender.send(mimeMessage);
-            log.info(
-                    String.format
-                            ("INFO - Email successfully sent to %s with template %s", destinationEmail, templateName));
-        }catch (MessagingException e){
-            log.warn("WARNING - Cannot send email to {}", destinationEmail);
+            log.info(String.format("INFO - Email successfully sent to %s with template %s ", destinationEmail, templateName));
+        } catch (MessagingException e) {
+            log.warn("WARNING - Cannot send Email to {} ", destinationEmail);
         }
+
     }
 
     @Async
@@ -75,10 +75,10 @@ public class EmailService {
             String orderReference,
             List<Product> products
     ) throws MessagingException {
+
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper messageHelper =
-                new MimeMessageHelper(mimeMessage, MULTIPART_MODE_MIXED_RELATED, UTF_8.name());
-        messageHelper.setFrom("nicolasmartin89@gmail.com");
+        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, UTF_8.name());
+        messageHelper.setFrom("contact@aliboucoding.com");
 
         final String templateName = ORDER_CONFIRMATION.getTemplate();
 
@@ -88,22 +88,20 @@ public class EmailService {
         variables.put("orderReference", orderReference);
         variables.put("products", products);
 
-
         Context context = new Context();
         context.setVariables(variables);
         messageHelper.setSubject(ORDER_CONFIRMATION.getSubject());
 
-        try{
+        try {
             String htmlTemplate = templateEngine.process(templateName, context);
             messageHelper.setText(htmlTemplate, true);
 
             messageHelper.setTo(destinationEmail);
             mailSender.send(mimeMessage);
-            log.info(
-                    String.format
-                            ("INFO - Email successfully sent to %s with template %s", destinationEmail, templateName));
-        }catch (MessagingException e){
-            log.warn("WARNING - Cannot send email to {}", destinationEmail);
+            log.info(String.format("INFO - Email successfully sent to %s with template %s ", destinationEmail, templateName));
+        } catch (MessagingException e) {
+            log.warn("WARNING - Cannot send Email to {} ", destinationEmail);
         }
+
     }
 }
